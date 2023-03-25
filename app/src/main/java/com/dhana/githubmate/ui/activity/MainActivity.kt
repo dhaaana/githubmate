@@ -1,14 +1,12 @@
 package com.dhana.githubmate.ui.activity
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.dhana.githubmate.databinding.ActivityMainBinding
 import com.dhana.githubmate.model.UserResponse
 import com.dhana.githubmate.ui.adapter.UserListAdapter
@@ -26,7 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[UserListViewModel::class.java]
+        val mainViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[UserListViewModel::class.java]
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvReview.layoutManager = layoutManager
@@ -40,12 +41,18 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
         }
-
     }
 
     private fun setUserListData(userList: List<UserResponse>) {
         val adapter = UserListAdapter(userList)
         binding.rvReview.adapter = adapter
+        adapter.setOnItemClickCallback(object : UserListAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: UserResponse) {
+                val detailIntent = Intent(this@MainActivity, DetailActivity::class.java)
+                detailIntent.putExtra("username", data.login)
+                startActivity(detailIntent)
+            }
+        })
     }
 
     private fun showLoading(isLoading: Boolean) {

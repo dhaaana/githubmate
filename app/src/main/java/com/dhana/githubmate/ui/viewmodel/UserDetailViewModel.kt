@@ -10,40 +10,36 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserListViewModel() : ViewModel() {
+class UserDetailViewModel() : ViewModel() {
 
-    private val _userList = MutableLiveData<List<UserResponse>>()
-    val userList: LiveData<List<UserResponse>> = _userList
+    private val _userDetail = MutableLiveData<UserResponse>()
+    val userDetail: LiveData<UserResponse> = _userDetail
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     companion object {
-        private const val TAG = "UserListViewModel"
+        private const val TAG = "UserDetailViewModel"
     }
 
-    init {
-        getUsers()
-    }
-
-    private fun getUsers(query: String? = null) {
+    fun getUserDetail(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getUsers()
+        val client = ApiConfig.getApiService().getUser(username)
 
-        client.enqueue(object : Callback<List<UserResponse>> {
+        client.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
-                call: Call<List<UserResponse>>,
-                response: Response<List<UserResponse>>
+                call: Call<UserResponse>,
+                response: Response<UserResponse>
             ) {
                 if (response.isSuccessful) {
-                    _userList.value = response.body()
-                    _isLoading.value = false
+                    _userDetail.value = response.body()
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
+                _isLoading.value = false
             }
 
-            override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
