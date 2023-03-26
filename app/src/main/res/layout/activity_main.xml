@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        app:iconifiedByDefault="false"
+        app:queryHint="Cari disini"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -29,6 +39,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/searchView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
