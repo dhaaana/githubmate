@@ -8,11 +8,8 @@ import com.dhana.githubmate.model.UserResponse
 
 class UserListAdapter(private val userList: List<UserResponse>) :
     RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
-    private lateinit var onItemClickCallback: OnItemClickCallback
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
+    private lateinit var onItemClickCallback: OnItemClickCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -32,6 +29,10 @@ class UserListAdapter(private val userList: List<UserResponse>) :
 
     class ViewHolder(var binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     interface OnItemClickCallback {
         fun onItemClicked(data: UserResponse)

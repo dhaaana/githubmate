@@ -26,7 +26,7 @@ class UserListViewModel() : ViewModel() {
         getUsers()
     }
 
-    private fun getUsers(query: String? = null) {
+    private fun getUsers() {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getUsers()
 
@@ -37,12 +37,11 @@ class UserListViewModel() : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     _userList.value = response.body()
-                    _isLoading.value = false
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
+                _isLoading.value = false
             }
-
             override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
