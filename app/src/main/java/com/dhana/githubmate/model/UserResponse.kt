@@ -16,14 +16,17 @@ data class UserResponse(
     val id: Long,
     @SerializedName("avatar_url")
     val avatarUrl: String,
+)
+
+data class UserDetailResponse(
+    val login: String,
+    val id: Long,
+    @SerializedName("avatar_url")
+    val avatarUrl: String,
     val name: String?,
     val company: String?,
     val location: String?,
     val bio: String?,
-    @SerializedName("public_repos")
-    val publicRepos: Int,
-    @SerializedName("public_gists")
-    val publicGists: Int,
     val followers: Int,
     val following: Int
 )

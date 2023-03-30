@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhana.githubmate.databinding.ActivityMainBinding
 import com.dhana.githubmate.model.UserResponse
@@ -32,9 +31,7 @@ class MainActivity : AppCompatActivity() {
         )[UserListViewModel::class.java]
 
         val layoutManager = LinearLayoutManager(this)
-        binding.rvReview.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvReview.addItemDecoration(itemDecoration)
+        binding.rvUser.layoutManager = layoutManager
 
         mainViewModel.userList.observe(this) { userList ->
             setUserListData(userList)
@@ -44,10 +41,19 @@ class MainActivity : AppCompatActivity() {
             showLoading(it)
         }
 
+        mainViewModel.isSearching.observe(this) {
+            showHomeButton(it)
+        }
+
+        mainViewModel.errorMessage.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         val searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                 mainViewModel.searchUsers(query)
                 searchView.clearFocus()
                 return true
@@ -56,11 +62,16 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+
+        val homeButton = binding.home
+        homeButton.setOnClickListener {
+            mainViewModel.getUsers()
+        }
     }
 
     private fun setUserListData(userList: List<UserResponse>) {
         val adapter = UserListAdapter(userList)
-        binding.rvReview.adapter = adapter
+        binding.rvUser.adapter = adapter
         adapter.setOnItemClickCallback(object : UserListAdapter.OnItemClickCallback {
             override fun onItemClicked(data: UserResponse) {
                 val detailIntent = Intent(this@MainActivity, DetailActivity::class.java)
@@ -72,5 +83,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.rvUser.visibility = if (isLoading) View.GONE else View.VISIBLE
+    }
+
+    private fun showHomeButton(isSearching: Boolean) {
+        binding.home.visibility = if (isSearching) View.VISIBLE else View.GONE
     }
 }

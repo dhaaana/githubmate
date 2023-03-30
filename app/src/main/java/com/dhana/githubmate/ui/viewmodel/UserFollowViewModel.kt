@@ -21,6 +21,9 @@ class UserFollowViewModel() : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
     companion object {
         private const val TAG = "UserFollowViewModel"
     }
@@ -43,6 +46,7 @@ class UserFollowViewModel() : ViewModel() {
             }
             override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
                 _isLoading.value = false
+                _errorMessage.value = t.message.toString()
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
@@ -66,6 +70,7 @@ class UserFollowViewModel() : ViewModel() {
             }
             override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
                 _isLoading.value = false
+                _errorMessage.value = t.message.toString()
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })

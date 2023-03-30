@@ -3,7 +3,12 @@
 
     <string name="tab_follower">Follower</string>
     <string name="tab_following">Following</string>
-    <string name="content_tab_home">Welcome Home</string>
-    <string name="content_tab_profile">Change your Profile here</string>
-    <string name="content_tab_text">This is Tab %1$d</string>
+    <string name="profile_title">Profile</string>
+    <string name="github_url">github.com/</string>
+
+    <string name="home_button">Home</string>
+    <string name="back_button">Back</string>
+
+    <string name="tv_followers">Followers: %1$d</string>
+    <string name="tv_following">Followers: %1$d</string>
 </resources>

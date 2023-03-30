@@ -3,6 +3,8 @@ package com.dhana.githubmate.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.dhana.githubmate.R
 import com.dhana.githubmate.databinding.ItemUserBinding
 import com.dhana.githubmate.model.UserResponse
 
@@ -19,7 +21,8 @@ class UserListAdapter(private val userList: List<UserResponse>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = userList[position]
-        holder.binding.tvItem.text = user.login
+        holder.binding.tvUsername.text = user.login
+        Glide.with(holder.itemView.context).load(user.avatarUrl).into(holder.binding.profilePicture)
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(user)
         }

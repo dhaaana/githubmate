@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhana.githubmate.databinding.FragmentFollowBinding
 import com.dhana.githubmate.model.UserResponse
@@ -27,9 +27,7 @@ class FollowFragment : Fragment() {
         binding = FragmentFollowBinding.inflate(inflater, container, false)
 
         val layoutManager = LinearLayoutManager(requireContext())
-        binding.rvReview.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
-        binding.rvReview.addItemDecoration(itemDecoration)
+        binding.rvUser.layoutManager = layoutManager
 
         followViewModel = ViewModelProvider(
             this,
@@ -45,8 +43,8 @@ class FollowFragment : Fragment() {
 
         if (username != null && index != null) {
             when (index) {
-                1 -> followViewModel.getFollowers(username)
-                2 -> followViewModel.getFollowing(username)
+                1 -> if (followViewModel.followerList.value == null) followViewModel.getFollowers(username)
+                2 -> if (followViewModel.followingList.value == null) followViewModel.getFollowing(username)
             }
         }
 
@@ -61,11 +59,17 @@ class FollowFragment : Fragment() {
         followViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
+
+        followViewModel.errorMessage.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setUserFollowData(userList: List<UserResponse>) {
         val adapter = UserListAdapter(userList)
-        binding.rvReview.adapter = adapter
+        binding.rvUser.adapter = adapter
         adapter.setOnItemClickCallback(object : UserListAdapter.OnItemClickCallback {
             override fun onItemClicked(data: UserResponse) {
                 val detailIntent = Intent(activity, DetailActivity::class.java)

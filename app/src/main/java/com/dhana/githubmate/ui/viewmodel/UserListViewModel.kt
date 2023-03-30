@@ -19,6 +19,12 @@ class UserListViewModel() : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _isSearching = MutableLiveData<Boolean>()
+    val isSearching: LiveData<Boolean> = _isSearching
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
     companion object {
         private const val TAG = "UserListViewModel"
     }
@@ -27,8 +33,9 @@ class UserListViewModel() : ViewModel() {
         getUsers()
     }
 
-    private fun getUsers() {
+    fun getUsers() {
         _isLoading.value = true
+        _isSearching.value = false
         val client = ApiConfig.getApiService().getUsers()
 
         client.enqueue(object : Callback<List<UserResponse>> {
@@ -46,6 +53,7 @@ class UserListViewModel() : ViewModel() {
 
             override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
                 _isLoading.value = false
+                _errorMessage.value = t.message.toString()
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
@@ -66,10 +74,12 @@ class UserListViewModel() : ViewModel() {
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
                 _isLoading.value = false
+                _isSearching.value = true
             }
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 _isLoading.value = false
+                _errorMessage.value = t.message.toString()
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })

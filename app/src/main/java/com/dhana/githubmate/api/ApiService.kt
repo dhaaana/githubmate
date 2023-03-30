@@ -1,6 +1,7 @@
 package com.dhana.githubmate.api
 
 import com.dhana.githubmate.model.SearchResponse
+import com.dhana.githubmate.model.UserDetailResponse
 import com.dhana.githubmate.model.UserResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -22,7 +23,7 @@ interface ApiService {
     @GET("users/{username}")
     fun getUser(
         @Path("username") username: String
-    ): Call<UserResponse>
+    ): Call<UserDetailResponse>
 
     // Endpoint to get the list of followers of a user based on username
     @GET("users/{username}/followers")
