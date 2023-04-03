@@ -4,13 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dhana.githubmate.api.ApiConfig
-import com.dhana.githubmate.model.UserDetailResponse
+import androidx.lifecycle.viewModelScope
+import com.dhana.githubmate.data.UserRepository
+import com.dhana.githubmate.data.local.entity.FavoriteUserEntity
+import com.dhana.githubmate.data.remote.api.ApiConfig
+import com.dhana.githubmate.data.remote.response.UserDetailResponse
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserDetailViewModel() : ViewModel() {
+class UserDetailViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private val _userDetail = MutableLiveData<UserDetailResponse>()
     val userDetail: LiveData<UserDetailResponse> = _userDetail
@@ -48,6 +52,22 @@ class UserDetailViewModel() : ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
+    }
+
+    fun insertFavoriteUser(user: FavoriteUserEntity) {
+        viewModelScope.launch {
+            userRepository.insertFavoriteUser(user)
+        }
+    }
+
+    fun deleteFavoriteUser(login: String) {
+        viewModelScope.launch {
+            userRepository.deleteFavoriteUser(login)
+        }
+    }
+
+    fun isUserFavorite(login: String): LiveData<Boolean> {
+       return userRepository.isUserFavorite(login)
     }
 }
 

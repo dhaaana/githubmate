@@ -1,8 +1,8 @@
-package com.dhana.githubmate.api
+package com.dhana.githubmate.data.remote.api
 
-import com.dhana.githubmate.model.SearchResponse
-import com.dhana.githubmate.model.UserDetailResponse
-import com.dhana.githubmate.model.UserResponse
+import com.dhana.githubmate.data.remote.response.SearchResponse
+import com.dhana.githubmate.data.remote.response.UserDetailResponse
+import com.dhana.githubmate.data.remote.response.UserResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

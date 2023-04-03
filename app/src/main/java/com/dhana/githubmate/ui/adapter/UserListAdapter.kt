@@ -4,9 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dhana.githubmate.R
 import com.dhana.githubmate.databinding.ItemUserBinding
-import com.dhana.githubmate.model.UserResponse
+import com.dhana.githubmate.data.remote.response.UserResponse
 
 class UserListAdapter(private val userList: List<UserResponse>) :
     RecyclerView.Adapter<UserListAdapter.ViewHolder>() {

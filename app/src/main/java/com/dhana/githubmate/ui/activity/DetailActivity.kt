@@ -1,25 +1,36 @@
 package com.dhana.githubmate.ui.activity
 
-import android.content.res.Configuration
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import androidx.lifecycle.ViewModelProvider
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dhana.githubmate.R
+import com.dhana.githubmate.data.local.entity.FavoriteUserEntity
 import com.dhana.githubmate.databinding.ActivityDetailBinding
-import com.dhana.githubmate.model.UserDetailResponse
+import com.dhana.githubmate.data.remote.response.UserDetailResponse
 import com.dhana.githubmate.ui.adapter.SectionsPagerAdapter
 import com.dhana.githubmate.ui.viewmodel.UserDetailViewModel
+import com.dhana.githubmate.ui.viewmodel.ViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.Date
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val detailViewModel: UserDetailViewModel by viewModels() {
+        ViewModelFactory.getInstance(application, dataStore)
+    }
 
     companion object {
         const val EXTRA_USERNAME = "username"
@@ -34,7 +45,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         supportActionBar?.hide()
@@ -43,11 +53,6 @@ class DetailActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
-        val detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        )[UserDetailViewModel::class.java]
 
         val username = intent.getStringExtra(EXTRA_USERNAME)
         if (username != null) {
@@ -60,6 +65,7 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.userDetail.observe(this) { userDetail ->
             setupFollowTabs(listOf(userDetail.followers, userDetail.following))
             setUserDetailData(userDetail)
+            initializeFavoriteButton(userDetail)
         }
 
         detailViewModel.isLoading.observe(this) {
@@ -95,16 +101,29 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
     }
 
+    private fun initializeFavoriteButton(userDetail: UserDetailResponse) {
+        val favoriteBtn = binding.btnFav
+
+        detailViewModel.isUserFavorite(userDetail.login).observe(this) {d ->
+            if (d) {
+                favoriteBtn.setImageResource(R.drawable.ic_favorite)
+            } else {
+                favoriteBtn.setImageResource(R.drawable.ic_favorite_border)
+            }
+
+            favoriteBtn.setOnClickListener {
+                if (d) {
+                    detailViewModel.deleteFavoriteUser(userDetail.login)
+                } else {
+                    val user = FavoriteUserEntity(userDetail.login, userDetail.avatarUrl)
+                    detailViewModel.insertFavoriteUser(user)
+                }
+            }
+
+        }
+    }
+
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-//    override fun onConfigurationChanged(newConfig: Configuration) {
-//        super.onConfigurationChanged(newConfig)
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            setContentView(binding.root)
-//        } else {
-//            setContentView(binding.root)
-//        }
-//    }
 }

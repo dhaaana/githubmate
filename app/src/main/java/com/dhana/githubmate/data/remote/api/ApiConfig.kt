@@ -1,4 +1,4 @@
-package com.dhana.githubmate.api
+package com.dhana.githubmate.data.remote.api
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

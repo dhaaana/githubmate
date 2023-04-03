@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dhana.githubmate.databinding.FragmentFollowBinding
-import com.dhana.githubmate.model.UserResponse
+import com.dhana.githubmate.data.remote.response.UserResponse
 import com.dhana.githubmate.ui.activity.DetailActivity
 import com.dhana.githubmate.ui.adapter.UserListAdapter
 import com.dhana.githubmate.ui.viewmodel.UserFollowViewModel

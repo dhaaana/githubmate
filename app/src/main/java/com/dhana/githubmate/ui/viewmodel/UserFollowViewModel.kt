@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dhana.githubmate.api.ApiConfig
-import com.dhana.githubmate.model.UserResponse
+import com.dhana.githubmate.data.remote.api.ApiConfig
+import com.dhana.githubmate.data.remote.response.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

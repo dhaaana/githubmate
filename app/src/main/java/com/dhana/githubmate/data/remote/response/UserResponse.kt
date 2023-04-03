@@ -1,4 +1,4 @@
-package com.dhana.githubmate.model
+package com.dhana.githubmate.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
@@ -13,7 +13,6 @@ data class SearchResponse(
 
 data class UserResponse(
     val login: String,
-    val id: Long,
     @SerializedName("avatar_url")
     val avatarUrl: String,
 )
