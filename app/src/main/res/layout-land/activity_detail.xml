@@ -10,7 +10,7 @@
         android:id="@+id/topSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient"
+        android:background="@drawable/gradient_rounded"
         android:elevation="10dp"
         android:padding="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -115,15 +115,27 @@
         app:layout_constraintTop_toBottomOf="@id/topSection" />
 
     <ImageButton
-        android:id="@+id/btn_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnFav"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_margin="20dp"
         android:background="@drawable/gradient_circle"
         android:contentDescription="@string/favorite_button"
         android:elevation="2dp"
         android:padding="15dp"
-        android:src="@drawable/ic_favorite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/buttonProgressBar"
+        android:progressBackgroundTint="@color/white"
+        android:indeterminateTint="@color/white"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnFav"
+        app:layout_constraintTop_toTopOf="@id/btnFav"
+        app:layout_constraintLeft_toLeftOf="@id/btnFav"
+        app:layout_constraintRight_toRightOf="@id/btnFav"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

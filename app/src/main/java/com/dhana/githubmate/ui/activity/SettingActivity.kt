@@ -31,6 +31,11 @@ class SettingActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        val backButton = binding.btnBack
+        backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         val switchTheme = binding.switchTheme
 
         settingViewModel.getThemeSetting().observe(this) { isDarkModeActive: Boolean ->

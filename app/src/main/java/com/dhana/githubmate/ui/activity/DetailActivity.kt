@@ -34,7 +34,6 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_USERNAME = "username"
-
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tab_follower,
@@ -105,6 +104,7 @@ class DetailActivity : AppCompatActivity() {
         val favoriteBtn = binding.btnFav
 
         detailViewModel.isUserFavorite(userDetail.login).observe(this) {d ->
+            binding.buttonProgressBar.visibility = View.GONE
             if (d) {
                 favoriteBtn.setImageResource(R.drawable.ic_favorite)
             } else {
@@ -114,9 +114,11 @@ class DetailActivity : AppCompatActivity() {
             favoriteBtn.setOnClickListener {
                 if (d) {
                     detailViewModel.deleteFavoriteUser(userDetail.login)
+                    Toast.makeText(this, "${userDetail.login} removed from favorite users", Toast.LENGTH_SHORT).show()
                 } else {
                     val user = FavoriteUserEntity(userDetail.login, userDetail.avatarUrl)
                     detailViewModel.insertFavoriteUser(user)
+                    Toast.makeText(this, "${userDetail.login} added to favorite users", Toast.LENGTH_SHORT).show()
                 }
             }
 

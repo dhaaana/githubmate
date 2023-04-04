@@ -3,7 +3,6 @@ package com.dhana.githubmate.data.local.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(tableName = "favorite")
 class FavoriteUserEntity(

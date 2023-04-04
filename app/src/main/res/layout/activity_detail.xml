@@ -10,11 +10,11 @@
         android:id="@+id/topSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient"
+        android:background="@drawable/gradient_rounded"
         android:elevation="10dp"
+        android:paddingHorizontal="12dp"
         android:paddingTop="12dp"
         android:paddingBottom="4dp"
-        android:paddingHorizontal="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,18 +37,18 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="10dp"
             android:contentDescription="@string/back_button"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/profileTitle"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back"
             app:layout_constraintBottom_toBottomOf="@id/profileTitle"
-            android:src="@drawable/ic_arrow_back" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/profileTitle" />
 
         <TextView
             android:id="@+id/profileTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/archivo_bold"
+            android:fontFamily="@font/inter_bold"
             android:paddingVertical="15dp"
             android:text="@string/profile_title"
             android:textAlignment="center"
@@ -86,10 +86,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_medium"
+            android:paddingBottom="10dp"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:paddingBottom="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvUsername"
             tools:text="Full Name" />
@@ -99,13 +99,12 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:background="#00FFFFFF"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:tabIndicatorColor="@color/white"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:tabIndicatorColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -117,15 +116,28 @@
         app:layout_constraintTop_toBottomOf="@id/topSection" />
 
     <ImageButton
-        android:id="@+id/btn_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnFav"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_margin="20dp"
         android:background="@drawable/gradient_circle"
-        android:padding="15dp"
-        android:elevation="2dp"
         android:contentDescription="@string/favorite_button"
-        app:layout_constraintRight_toRightOf="parent"
+        android:elevation="2dp"
+        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_favorite" />
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/buttonProgressBar"
+        android:progressBackgroundTint="@color/white"
+        android:indeterminateTint="@color/white"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnFav"
+        app:layout_constraintTop_toTopOf="@id/btnFav"
+        app:layout_constraintLeft_toLeftOf="@id/btnFav"
+        app:layout_constraintRight_toRightOf="@id/btnFav"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
